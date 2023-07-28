@@ -1,12 +1,9 @@
-import mongoose from 'mongoose'
-
-// model
-import ModelSchema from '../ModelSchema/ModelSchema.js'
+import ClientModels from '../models/ClientModels.js'
 
 export const getDatabase = async (req, res) => {
     try {
-        const Database = await ModelSchema.find({})
-        res.status(200).json(Database)
+        const _db = await ClientModels.find({});
+        res.status(200).json(_db)
     } catch (err) {
         res.status(404).json(err)
     }
@@ -14,12 +11,13 @@ export const getDatabase = async (req, res) => {
 
 export const postTask = async (req, res) => {
 
-    const { id } = req.params;
+    // const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credential' });
+    // if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credential' });
 
+
+    // cant send post because no ID 
     try {
-
         const addTask = await ModelSchema.findByIdAndUpdate(id, {
             $push: {
                 list: {
@@ -33,6 +31,6 @@ export const postTask = async (req, res) => {
         res.json(addTask)
 
     } catch (error) {
-        res.status(404).json(err)
+        res.status(404).json(error)
     }
 }
