@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import ClientModels from '../models/ClientModels.js'
 
 export const getDatabase = async (req, res) => {
@@ -11,25 +12,71 @@ export const getDatabase = async (req, res) => {
 
 export const postTask = async (req, res) => {
 
-    // const { id } = req.params;
+    const { id } = req.params;
 
-    // if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credential' });
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credential' });
 
+    console.log(id);
+    console.log(req.body.list[0].task)
 
-    // cant send post because no ID 
     try {
-        const addTask = await ModelSchema.findByIdAndUpdate(id, {
+        await ClientModels.findByIdAndUpdate(id, {
             $push: {
                 list: {
+                    identifier: req.body.list[0].identifier, // hidden value to be sent for reference
                     task: req.body.list[0].task
                 }
             }
         }, {
             new: true, upsert: true
         })
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
 
-        res.json(addTask)
+export const updateTask = async (req, res) => {
 
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credentials' });
+
+    try {
+        await ClientModels.findByIdAndUpdate(id, {
+            $set: {
+                "list.$[i].task": req.body.list[0].task
+            }
+        }, {
+            arrayFilters: [
+                {
+                    "i.identifier": req.body.list[0].identifier
+                }
+            ],
+            returnDocument: 'after',
+            safe: true
+        })
+    } catch (error) {
+        res.status(404).json(error)
+    }
+
+}
+
+export const deleteTask = async (req, res) => {
+
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credentials' });
+
+    try {
+        await ClientModels.findByIdAndUpdate(id, {
+            $pull: {
+                list: {
+                    _id: req.body.list[0]._id
+                }
+            }
+        }, {
+            new: true
+        })
     } catch (error) {
         res.status(404).json(error)
     }

@@ -10,6 +10,10 @@ const ClientSchema = mongoose.Schema({
             task: {
                 type: String,
                 require: true
+            },
+            identifier: {
+                type: String,
+                require: true
             }
         }
     ]

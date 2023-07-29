@@ -35,7 +35,7 @@ if (ATLAS_URI) {
             console.log(`app is running at PORT:${PORT}`)
         })
     }).catch(err => {
-        console.log(err) 
+        console.log(err)
     })
 } else {
     console.log("CONNECTION URL NOT FOUND")

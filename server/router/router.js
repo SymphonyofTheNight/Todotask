@@ -1,13 +1,15 @@
-import express, { Router } from 'express'
+import express from 'express'
 
 // controllers
-import { getDatabase, postTask } from '../controllers/controllers.js';
+import { getDatabase, postTask, updateTask, deleteTask } from '../controllers/controllers.js';
 
 //  app api
 const router = express.Router();
 
 router.get('/', getDatabase);
-router.post('/post', postTask);
+router.post('/:id', postTask);
+router.patch('/:id', updateTask);
+router.delete('/:id', deleteTask);
 
 
 export default router
