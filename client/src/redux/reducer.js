@@ -1,7 +1,5 @@
 const initialState = {
-    store: [{
-        name: "gino"
-    }],
+    store: [],
     isLoading: false
 }
 
@@ -11,6 +9,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 store: action.payload
+            }
+        case 'POST_DATA':
+            return {
+                ...state,
+                store: [...state.store, action.payload],
             }
         case 'EDIT_DATA':
             return {
