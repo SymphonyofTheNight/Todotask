@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 
-// components
-import Container from './components/container';
+import { get_data } from './redux/cartSlice.js'
 
-// action
-import { get_db } from './controller/action.js'
+import Container from './components/Container.jsx'
 
 const App = () => {
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(get_db());
+    dispatch(get_data());
   }, [])
 
   return (

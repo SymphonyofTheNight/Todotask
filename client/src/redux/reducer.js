@@ -1,33 +1,12 @@
-const initialState = {
-    store: [],
-    isLoading: false
-}
+import { configureStore } from '@reduxjs/toolkit'
+import ThunkMiddleware from 'redux-thunk';
 
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'FETCH_DATA':
-            return {
-                ...state,
-                store: action.payload
-            }
-        case 'POST_DATA':
-            return {
-                ...state,
-                store: [...state.store, action.payload],
-            }
-        case 'EDIT_DATA':
-            return {
-                ...state,
-                store: state.store.find(x => x.task._id === action.payload._id ? action.payload : null)
-            }
-        case 'REMOVE_DATA':
-            return {
-                store: state.store.filter(x => x.task._id !== action.payload._id)
-            }
-        default:
-            return state;
-    }
-}
+// rreducer
+import cartReducer from '../redux/cartSlice.js';
 
-
-export default reducer;
+export const store = configureStore({
+    reducer: {
+        cart: cartReducer
+    },
+    middleware: [ThunkMiddleware]
+})

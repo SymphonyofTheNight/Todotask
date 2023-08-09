@@ -16,7 +16,7 @@ export const postTask = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credential' });
 
-    console.log(id);
+    console.log(id)
     console.log(req.body.list[0].task)
 
     try {
@@ -64,6 +64,8 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
 
     const { id } = req.params;
+
+    console.log(req.body)
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credentials' });
 

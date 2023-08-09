@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', getDatabase);
 router.post('/:id', postTask);
 router.patch('/:id', updateTask);
-router.delete('/:id', deleteTask);
+router.put('/:id', deleteTask);
 
 
 export default router

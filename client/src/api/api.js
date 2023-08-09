@@ -8,7 +8,7 @@ export const addTaskToList = (id, post_task) => base_api.post(`/${id}`, {
     list: [
         {
             identifier: post_task.identifier,
-            task: post_task
+            task: post_task.task
         }
     ]
 });
@@ -22,10 +22,10 @@ export const editTaskToList = (id, patch_task) => base_api.patch(`/${id}`, {
     ]
 });
 
-export const removeTaskToList = (id, delete_task) => base_api.delete(`/${id}`, {
+export const removeTaskById = (mainID, taskID) => base_api.put(`/${mainID}`, {
     list: [
         {
-            _id: delete_task
+            _id: taskID
         }
     ]
-});
+}) 
