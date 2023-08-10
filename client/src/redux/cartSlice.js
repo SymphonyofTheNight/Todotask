@@ -22,10 +22,31 @@ export const remove_task = createAsyncThunk('cart/remove_task',
     }
 )
 
+export const remove_all_task = createAsyncThunk('cart/remove_all',
+    async ({ mainID }, { rejectWithValue }) => {
+        try {
+            await api.removeAllTaskById(mainID)
+        } catch (error) {
+            rejectWithValue(error.response.data)
+        }
+    }
+)
+
 export const add_task = createAsyncThunk('cart/add_task',
     async ({ mainID, newTask }, { rejectWithValue }) => {
         try {
             const { data } = await api.addTaskToList(mainID, newTask)
+            return data;
+        } catch (error) {
+            rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const edit_old_task = createAsyncThunk('cart/edit_task',
+    async ({ mainID, editedTask }, { rejectWithValue }) => {
+        try {
+            const { data } = await api.editTaskToList(mainID, editedTask)
             return data;
         } catch (error) {
             rejectWithValue(error.response.data)
@@ -47,24 +68,49 @@ const cartSlice = createSlice({
             const { mainID, newTask } = action.payload;
             const updatedCart = state.cart.map(item => {
                 if (item._id === mainID) {
-                    const updatedList = [...item.list, newTask];
+                    const updatedList = [...item.list, newTask]; // spread operator in array when ur adding new object in array
                     return { ...item, list: updatedList };
                 }
                 return item;
             });
             state.cart = updatedCart;
+        },
+        editTaskLocally: (state, action) => {
+            const { mainID, editedTask } = action.payload
+            const updatedTask = state.cart.map(state => {
+                if (state._id === mainID) {
+                    const updateList = state.list.map(task => {
+                        if (task.identifier === editedTask.identifier) {
+                            return { ...task, ...editedTask }  // spread operator in object or curly braces as when ur updating a existing object 
+                        }
+                        return task
+                    })
+                    return { ...state, list: updateList }
+                }
+                return state
+            })
+            state.cart = updatedTask
         },
         removeTaskLocally: (state, action) => {
             const { mainID, taskID } = action.payload;
             const updatedCart = state.cart.map(item => {
                 if (item._id === mainID) {
-                    const updatedList = item.list.filter(task => task._id !== taskID);
-                    return { ...item, list: updatedList };
+                    const updatedList = item.list.filter(task => task.identifier !== taskID); //filtering out specific task then return it 
+                    return { ...item, list: updatedList }; // returning the updated list that has been inside of item as an object with array that has been filtered
                 }
                 return item;
             });
             state.cart = updatedCart;
         },
+        removeAllTaskLocally: (state, action) => {
+            const { mainID } = action.payload
+            const updatedMainArr = state.cart.map(mainArr => {
+                if (mainArr._id === mainID) {
+                    return { ...mainArr, list: [] }
+                }
+            })
+            state.cart = updatedMainArr
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -82,23 +128,15 @@ const cartSlice = createSlice({
             })
             .addCase(add_task.pending, (state) => {
                 state.isLoading = true
+                state.isSuccess = false
             })
-            .addCase(add_task.fulfilled, (state, action) => {
-                const { mainID, newTask } = action.payload;
-                const updatedCart = state.cart.map(item => {
-                    if (item._id === mainID) {
-                        const updatedList = [...item.list, newTask];
-                        return { ...item, list: updatedList };
-                    }
-                    return item;
-                });
-                state.cart = updatedCart;
+            .addCase(add_task.fulfilled, (state) => {
                 state.isLoading = false
                 state.isSuccess = true
             })
     },
 })
 
-export const { removeTaskLocally, addTaskLocally } = cartSlice.actions
+export const { removeTaskLocally, addTaskLocally, removeAllTaskLocally, editTaskLocally } = cartSlice.actions
 
 export default cartSlice.reducer

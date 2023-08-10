@@ -25,7 +25,11 @@ export const editTaskToList = (id, patch_task) => base_api.patch(`/${id}`, {
 export const removeTaskById = (mainID, taskID) => base_api.put(`/${mainID}`, {
     list: [
         {
-            _id: taskID
+            identifier: taskID
         }
     ]
-}) 
+})
+
+export const removeAllTaskById = (mainID) => base_api.delete(`/${mainID}`, {
+    list: []
+})

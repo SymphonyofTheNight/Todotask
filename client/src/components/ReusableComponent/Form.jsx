@@ -21,7 +21,9 @@ const Form = () => {
         dispatch(addTaskLocally({ mainID: owner_id, newTask: task }))
         // mainID, newTask
 
-        setTask({ task: '', identifier: '' });
+        setTask({ task: '', identifier: uuidv4() });
+
+        // dispatch(removeAllTaskLocally({ mainID: owner_id })) //testing if works done
     }
 
     return (

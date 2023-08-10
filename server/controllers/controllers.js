@@ -39,11 +39,14 @@ export const updateTask = async (req, res) => {
 
     const { id } = req.params;
 
+    console.log(req.body.list[0].task)
+
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credentials' });
 
     try {
         await ClientModels.findByIdAndUpdate(id, {
             $set: {
+                "list.$[i].identifier": req.body.list[0].identifier,
                 "list.$[i].task": req.body.list[0].task
             }
         }, {
@@ -65,16 +68,35 @@ export const deleteTask = async (req, res) => {
 
     const { id } = req.params;
 
-    console.log(req.body)
-
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credentials' });
 
     try {
         await ClientModels.findByIdAndUpdate(id, {
             $pull: {
                 list: {
-                    _id: req.body.list[0]._id
+                    identifier: req.body.list[0].identifier
                 }
+            }
+        }, {
+            new: true
+        })
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
+
+export const deleteAllTask = async (req, res) => {
+
+    const { id } = req.params;
+
+    console.log(id)
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ message: 'Invalid Credentials' });
+
+    try {
+        await ClientModels.findByIdAndUpdate(id, {
+            $set: {
+                list: []
             }
         }, {
             new: true
