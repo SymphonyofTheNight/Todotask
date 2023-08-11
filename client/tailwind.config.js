@@ -25,7 +25,7 @@ export default {
       // })
     },
     screens: {
-      xs: "360px", // xsmall
+      xs: "320px", // xsmall
       sss: "405px", // phone
       ss: "620px", // tablet
       sm: "768px", // ipad

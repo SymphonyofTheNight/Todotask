@@ -18,16 +18,15 @@ const SubContainer = ({ setIfEditing, set_selected_task_id }) => {
     }
 
     return (
-        <div className='bg-[#01313d] min-h-[80vh] w-[50vw] relative rounded-[10px] text-justify flex flex-col flex-wrap'>
-            <h1 className='text-white text-4xl font-Poppins mt-5 ml-5'>Get Things Done!</h1>
+        <div className='bg-[#01313d] min-h-[70vh] w-[90vw] lg:w-[500px] relative rounded-[10px] text-justify flex flex-col flex-wrap items-center justify-center'>
+            <h1 className='text-white text-1xl font-Poppins mt-5'>Get Things Done!</h1>
             <Form />
             <Tasklist setIfEditing={setIfEditing} set_selected_task_id={set_selected_task_id} />
             <form onSubmit={HandleDeleteAll}>
-                <button type='submit' className='bg-[#1c1e21] h-[5vh] w-[9vw] absolute right-0 bottom-0 m-5 font-Poppins text-white'>
+                <button type='submit' className='bg-[#1c1e21] h-[5vh] w-[80vw] lg:w-[450px] mb-4 font-Poppins text-white'>
                     REMOVE ALL
                 </button>
             </form>
-
         </div>
     )
 }

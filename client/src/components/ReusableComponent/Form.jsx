@@ -15,29 +15,25 @@ const Form = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        if (task.task !== '') {
+            dispatch(add_task({ mainID: owner_id, newTask: task }))
+            dispatch(addTaskLocally({ mainID: owner_id, newTask: task }))
+            setTask({ task: '', identifier: uuidv4() });
+        }
 
-        // set task and generatedid as one object
-        dispatch(add_task({ mainID: owner_id, newTask: task }))
-        dispatch(addTaskLocally({ mainID: owner_id, newTask: task }))
-        // mainID, newTask
-
-        setTask({ task: '', identifier: uuidv4() });
-
-        // dispatch(removeAllTaskLocally({ mainID: owner_id })) //testing if works done
     }
 
     return (
         <form onSubmit={onSubmit}>
-            <div className='grid place-items-center gap-4 mt-5'>
-                <div className='h-[5vh] w-[48vw] flex flex-row flex-wrap justify-between'>
+            <div className='w-[80vw] lg:w-[450px] grid place-items-center gap-4 mt-4'>
+                <div className='h-auto w-auto flex flex-row flex-wrap '>
                     <input onChange={(e) => {
                         setTask({ ...task, task: e.target.value })
-                    }} className='bg-[#01313d] h-[5vh] w-[38vw] outline-0 border-[1px] border-white p-2 font-Poppins text-white' placeholder='What do you have planned?' value={task.task} />
-                    <button className='bg-[#1c1e21] h-[5vh] w-[9vw] font-Poppins text-white' type='submit'>
+                    }} className='bg-[#01313d] h-[7vh] w-[80vw] lg:w-[450px] outline-0 border-[1px] border-white p-2 font-Poppins text-white' placeholder='What do you have planned?' value={task.task} />
+                    <button className='bg-[#1c1e21] h-[5vh] w-[80vw] lg:w-[450px] font-Poppins text-white pr-2 pl-2 mt-2' type='submit'>
                         Submit
                     </button>
                 </div>
-
             </div>
         </form>
     )

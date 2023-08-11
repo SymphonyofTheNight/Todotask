@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import SubContainer from "./SubContainer"
-
-// slice
 import { editTaskLocally, edit_old_task } from '../redux/cartSlice.js'
+
+import SubContainer from "./SubContainer"
 
 const Container = () => {
 
@@ -36,20 +35,16 @@ const Container = () => {
 
     const editTaskHandler = (e) => {
         e.preventDefault();
-        // mainID, editedTask
         dispatch(edit_old_task({ mainID: owner_id, editedTask: edit_task }))
         dispatch(editTaskLocally({ mainID: owner_id, editedTask: edit_task }))
         setIfEditing(!ifEditing)
         set_selected_task_id('')
-        console.log(edit_task)
     }
 
     return (
         <div className="bg-[#1c1e21] relative h-screen w-screen grid items-center justify-center drop-shadow-md">
             <SubContainer setIfEditing={setIfEditing} set_selected_task_id={set_selected_task_id} />
-
             {ifEditing ?
-
                 <div className='bg-[#1c1e21] h-auto w-[30vw] flex flex-row flex-wrap items-start justify-end top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-[10px] task-editor'>
                     <h1 className='text-white text-1xl font-Poppins mt-5 ml-5 absolute left-0 top-0'>Edit task</h1>
                     <form onSubmit={editTaskHandler}>
@@ -73,10 +68,8 @@ const Container = () => {
                 </div>
                 :
                 <div className='absolute'>
-
                 </div>
             }
-
         </div>
     )
 }

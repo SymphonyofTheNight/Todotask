@@ -76,20 +76,40 @@ const cartSlice = createSlice({
             state.cart = updatedCart;
         },
         editTaskLocally: (state, action) => {
+
             const { mainID, editedTask } = action.payload
+
             const updatedTask = state.cart.map(state => {
                 if (state._id === mainID) {
-                    const updateList = state.list.map(task => {
+                    const updatedList = state.list.map(task => {
                         if (task.identifier === editedTask.identifier) {
-                            return { ...task, ...editedTask }  // spread operator in object or curly braces as when ur updating a existing object 
+                            return { ...task, ...editedTask }
                         }
                         return task
                     })
-                    return { ...state, list: updateList }
+                    return { ...state, list: updatedList }
                 }
                 return state
             })
+
             state.cart = updatedTask
+
+            // state.cart = updatedTask
+
+            // const { mainID, editedTask } = action.payload
+            // const updatedTask = state.cart.map(state => {
+            //     if (state._id === mainID) {
+            //         const updateList = state.list.map(task => {
+            //             if (task.identifier === editedTask.identifier) {
+            //                 return { ...task, ...editedTask }  // spread operator in object or curly braces as when ur updating a existing object 
+            //             }
+            //             return task
+            //         })
+            //         return { ...state, list: updateList }
+            //     }
+            //     return state
+            // })
+            // state.cart = updatedTask
         },
         removeTaskLocally: (state, action) => {
             const { mainID, taskID } = action.payload;
