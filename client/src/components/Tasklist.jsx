@@ -51,7 +51,6 @@ const Tasklist = ({ setIfEditing, set_selected_task_id }) => {
                                             <FaTrash />
                                         </button>
                                     </form>
-
                                 </div>
                             ))}
                     </div>
